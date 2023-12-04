@@ -1,0 +1,386 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@media only screen and (min-width: 1210px) {
+  .PC-block {
+    display: flex !important;
+    position: fixed !important;
+  }
+}
+
+.noeven {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.uagepe {
+  padding-right: 1.8em !important;
+}
+
+.fadea {
+  transform: translateX(0);
+  transition: opacity 300ms ease-in-out;
+}
+
+.fadea-entering,
+.fadea-entered {
+  transform: translateX(100);
+}
+
+.zin-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.zin-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.zin-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.zin-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.testani-enter {
+  opacity: 0.01;
+}
+
+.testani-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.testani-exit {
+  opacity: 1;
+}
+
+.testani-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.fadenext-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.fadenext-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms, opacity 300ms;
+}
+
+.fadenext-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.fadenext-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 300ms, opacity 300ms;
+}
+
+
+.fadeprev-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.fadeprev-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms, opacity 300ms;
+}
+
+.fadeprev-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.fadeprev-exit-active {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 300ms, opacity 300ms;
+}
+
+.fademenu-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.fademenu-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms, opacity 300ms;
+}
+
+.fademenu-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.fademenu-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 300ms, opacity 300ms;
+}
+
+input[type="date"]::before {
+  color: #999999;
+  /* content: attr(placeholder); */
+}
+
+input[type="date"] {
+  color: #ffffff;
+}
+
+input[type="date"]:focus,
+input[type="date"]:valid {
+  color: #000000;
+}
+
+input[type="date"]:focus::before,
+input[type="date"]:valid::before {
+  display: none
+}
+
+.dlabel {
+  position: absolute;
+  margin-top: -8px;
+  background: white;
+  margin-left: 13px;
+}
+
+.isprev {
+  background-image: linear-gradient(to left, rgba(var(--bs-light-rgb), var(--bs-bg-opacity)), rgb(0, 153, 255));
+}
+
+.isnext {
+  background-image: linear-gradient(to right, rgba(var(--bs-light-rgb), var(--bs-bg-opacity)), rgb(0, 153, 255));
+}
+
+.ibgrou {
+  background-color: rgb(0, 153, 255);
+  border-bottom: 1px solid black;
+}
+
+.ibrode {
+  border: 1px solid black;
+  border-bottom: 0;
+}
+
+.crossed {
+  background:
+    linear-gradient(to top right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) calc(76% - 0.8px), rgb(138, 138, 138) 50%, rgba(0, 0, 0, 0) calc(76% + 0.8px), rgba(0, 0, 0, 0) 100%);
+}
+
+.iibral {
+  border-bottom: 1px solid rgb(162, 162, 162);
+}
+
+.iibrcl {
+  border-bottom: 1px solid rgb(162, 162, 162);
+  margin-top: 11px;
+}
+
+.itconn {
+  text-align: center;
+  margin-top: -0.3em;
+  margin-bottom: 0.3em;
+}
+
+.inames {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.icontn {
+  font-size: 0.8em;
+  height: 3.6em;
+}
+
+.ichklb {
+  padding: 0 1em;
+  padding-top: 1.5em;
+  margin-top: -1.5em;
+}
+
+.iopaci {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.ichekb {
+  height: 1.3em;
+  width: 1.3em;
+}
+
+.iradio {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.if09em {
+  font-size: 0.9em;
+}
+
+.if08em {
+  font-size: 0.8em;
+}
+
+.if07em {
+  font-size: 0.7em;
+}
+
+.if-065 {
+  margin-top: -0.65em;
+}
+
+.ilbope {
+  padding: 0 1.5em 1.5em 1.5em;
+  margin: 0 -1.5em -1.5em -1.5em;
+  z-index: 1;
+}
+
+.ifdelt {
+  position: absolute;
+  margin-top: -15px;
+  margin-left: -75px;
+  left: 50%;
+}
+
+.iodelt {
+  position: absolute;
+  margin-top: -15px;
+  margin-left: -30px;
+  left: 50%;
+}
+
+.iwdt50 {
+  width: 50%;
+}
+
+.iwdt95 {
+  width: 95%;
+}
+
+.icross {
+  height: 80px;
+  background-color: rgb(162, 162, 162);
+  width: 1px;
+  right: 1%;
+  margin-top: -24px;
+}
+
+.iflex1 {
+  flex: 1;
+}
+
+.iicons {
+  height: 32px;
+  width: 32px;
+}
+
+.qsicon {
+  height: 25px;
+  width: 25px;
+}
+
+.q-02em {
+  margin-top: -0.2em;
+}
+
+.qc-6px {
+  margin-top: -6px;
+}
+
+/* //////////// */
+.itemsiconl-enter {
+  transform: translate(60%, 50%);
+  opacity: 0;
+}
+
+.itemsiconl-enter-active {
+  transform: translate(0%, 0%);
+  opacity: 1;
+  transition: transform 300ms, opacity 300ms;
+}
+
+.itemsiconl-exit {
+  transform: translate(0%, 0%);
+  opacity: 1;
+}
+
+.itemsiconl-exit-active {
+  transform: translate(60%, 50%);
+  opacity: 0;
+  transition: transform 300ms, opacity 300ms;
+}
+
+/* //////////// */
+.itemsiconr-enter {
+  transform: translate(-60%, 50%);
+  opacity: 0;
+}
+
+.itemsiconr-enter-active {
+  transform: translate(0%, 0%);
+  opacity: 1;
+  transition: transform 300ms, opacity 300ms;
+}
+
+.itemsiconr-exit {
+  transform: translate(0%, 0%);
+  opacity: 1;
+}
+
+.itemsiconr-exit-active {
+  transform: translate(-60%, 50%);
+  opacity: 0;
+  transition: transform 300ms, opacity 300ms;
+}
+
+/* //////////// */
+.itemsshow-enter {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.itemsshow-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.itemsshow-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.itemsshow-exit-active {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 300ms, transform 300ms;
+}
