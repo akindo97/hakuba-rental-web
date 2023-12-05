@@ -85,6 +85,20 @@ function Fitems() {
         /*スノースケー*/[0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 3]
     ];
 
+    const xOpric = {
+        0.5: [3750, 1750 ],
+        1: [5000, 2500 ], 
+        1.5: [8500, 4000 ], 
+        2: [9500, 4500 ], 
+        2.5: [12500, 5500 ], 
+        3: [14000, 6500 ], 
+        4: [17500, 8000 ], 
+        5: [20000, 9000 ], 
+        6: [22500, 10000 ], 
+        7: [25000, 11000 ], 
+        8: [27500, 12000 ], 
+    }
+
     // 
     const [nxpram, setnxpram] = useState(false);
     const [slanim, setlanim] = useState('');
@@ -115,6 +129,7 @@ function Fitems() {
     const setval = (e, idx) => {
         const fieldName = e.target.name;
         const fieldValue = e.target.value;
+        console.log(fieldName, fieldValue);
         setXrtinf((prevXrtinf) => ({
             ...prevXrtinf,
             [idx]: {
@@ -142,48 +157,61 @@ function Fitems() {
     }
 
     // 貸出期間 - thời gian thuê
-    const period = (e, idx) => {
-        let daysDiff = 0;
-        setval(e, idx);
-        if (e.target.name == "istart" && !xrtinf[idx].xitems.i__end) {
-            setsie(idx, 'i__end', e.target.value);
-            setsie(idx, 'isampm', 1);
-            setsie(idx, 'ieampm', 2);
-            daysDiff = 1;
-        } else {
-            if (e.target.name == "istart") {
-                daysDiff = Math.floor(((new Date(xrtinf[idx].xitems.i__end) - new Date(e.target.value)) / (24 * 60 * 60 * 1000)) + 1);
-            } else if (e.target.name == "i__end") {
-                daysDiff = Math.floor(((new Date(e.target.value) - new Date(xrtinf[idx].xitems.istart)) / (24 * 60 * 60 * 1000)) + 1);
-            }
-        }
-        // if(xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
-        //     if(xrtinf[idx].xitems.i__day > 0) {
-        //         daysDiff = (xrtinf[idx].xitems.ieampm - xrtinf[idx].xitems.isampm) == 0 ? xrtinf[idx].xitems.i__day - 0.5 : xrtinf[idx].xitems.i__day;
-        //     } else {
-        //         daysDiff = (xrtinf[idx].xitems.ieampm - xrtinf[idx].xitems.isampm) == 0 ? daysDiff - 0.5 : daysDiff;
-        //     }
-        // }
-        if (xuindx == 0) {
-            for (let i = 0; i < xcount; i++) {
-                //　代表者場合全員同じ貸出期間になってる。
-                setsie(i, 'i__day', daysDiff);
-                if (i != 0) {
-                    if (e.target.name == "istart") {
-                        setsie(i, 'istart', e.target.value);
-                    } else if (e.target.name == "i__end") {
-                        setsie(i, 'i__end', e.target.value);
-                    }
-                }
-            }
-        } else {
-            setsie(idx, 'i__day', daysDiff);
-        }
-        localStorage.setItem("lterms", [0, ""]);
-    }
+    // const period = (e, idx) => {
+    //     let daysDiff = 0;
+    //     setval(e, idx);
+    //     if (e.target.name == "istart" && !xrtinf[idx].xitems.i__end) {
+    //         setsie(idx, 'i__end', e.target.value);
+    //         setsie(idx, 'isampm', 1);
+    //         setsie(idx, 'ieampm', 2);
+    //         daysDiff = 1;
+    //     } else {
+    //         if (e.target.name == "istart") {
+    //             daysDiff = Math.floor(((new Date(xrtinf[idx].xitems.i__end) - new Date(e.target.value)) / (24 * 60 * 60 * 1000)) + 1);
+    //         } else if (e.target.name == "i__end") {
+    //             daysDiff = Math.floor(((new Date(e.target.value) - new Date(xrtinf[idx].xitems.istart)) / (24 * 60 * 60 * 1000)) + 1);
+    //         }
+    //     }
+    //     // if(xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
+    //     //     if(xrtinf[idx].xitems.i__day > 0) {
+    //     //         daysDiff = (xrtinf[idx].xitems.ieampm - xrtinf[idx].xitems.isampm) == 0 ? xrtinf[idx].xitems.i__day - 0.5 : xrtinf[idx].xitems.i__day;
+    //     //     } else {
+    //     //         daysDiff = (xrtinf[idx].xitems.ieampm - xrtinf[idx].xitems.isampm) == 0 ? daysDiff - 0.5 : daysDiff;
+    //     //     }
+    //     // }
+    //     if (xuindx == 0) {
+    //         for (let i = 0; i < xcount; i++) {
+    //             //　代表者場合全員同じ貸出期間になってる。
+    //             setsie(i, 'i__day', daysDiff);
+    //             if (i != 0) {
+    //                 if (e.target.name == "istart") {
+    //                     setsie(i, 'istart', e.target.value);
+    //                 } else if (e.target.name == "i__end") {
+    //                     setsie(i, 'i__end', e.target.value);
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         setsie(idx, 'i__day', daysDiff);
+    //     }
+    //     localStorage.setItem("lterms", [0, ""]);
+    // }
     useEffect(() => {
+        let daysDiff = 0;
+        if (xrtinf[xuindx].xitems.istart && !xrtinf[xuindx].xitems.i__end) {
+            setsie(xuindx, 'i__end', xrtinf[xuindx].xitems.istart);
+            setsie(xuindx, 'isampm', 1);
+            setsie(xuindx, 'ieampm', 2);
+            daysDiff = 1;
+        } else if (xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
+            daysDiff = Math.floor(((new Date(xrtinf[xuindx].xitems.i__end) - new Date(xrtinf[xuindx].xitems.istart)) / (24 * 60 * 60 * 1000)) + 1);
+            daysDiff -= (xrtinf[xuindx].xitems.ieampm - xrtinf[xuindx].xitems.isampm) == 0 ? 0.5 : 0;
+        }
+        console.log(xrtinf[xuindx].xitems.istart, xrtinf[xuindx].xitems.i__end, xrtinf[xuindx].xitems.isampm, xrtinf[xuindx].xitems.ieampm);
+
+        setsie(xuindx, 'i__day', daysDiff);
+
         if (xuindx == 0) {
-            console.log(xcount);
             for (let i = 0; i < xcount; i++) {
                 //　代表者場合全員同じ貸出期間になってる。
                 if (i != 0 && xrtinf[i].xitems.i__day == 0) {
@@ -203,16 +231,12 @@ function Fitems() {
             }
         }
 
-
-    }, [xrtinf[xuindx].xitems.istart, xrtinf[xuindx].xitems.i__end], xcount)
-
-    // useEffect(() => {
-    //     if(!xrtinf[xuindx].xitems.istart || !xrtinf[xuindx].xitems.i__end || !xrtinf[xuindx].xitems.isampm || !xrtinf[xuindx].xitems.ieampm) {
-    //         return;
-    //     }
-    //     const  stlday = (xrtinf[xuindx].xitems.ieampm - xrtinf[xuindx].xitems.isampm) == 0 ? 0.5 : 0;
-    //     setsie(xuindx, 'i__day', xrtinf[xuindx].xitems.i__day - stlday);
-    // }, [xrtinf[xuindx].xitems.isampm, xrtinf[xuindx].xitems.ieampm])
+        localStorage.setItem("lterms", [0, ""]);
+    }, [xrtinf[xuindx].xitems.istart,
+    xrtinf[xuindx].xitems.i__end,
+    xrtinf[xuindx].xitems.isampm,
+    xrtinf[xuindx].xitems.ieampm,
+        xcount])
 
     // ルール
     const hdrule = (e, xindex, itemid, specia) => {
@@ -447,24 +471,25 @@ function Fitems() {
                             </div>
                             <div className='d-flex p-1'>
                                 <Form.Control type="date" min={new Date().toISOString().split('T')[xuindx]} className='me-1 text-center' name="istart"
-                                    onChange={(e) => { period(e, xuindx) }} value={xrtinf[xuindx].xitems.istart ? xrtinf[xuindx].xitems.istart : undefined} required />
+                                    // onChange={(e) => { period(e, xuindx) }} value={xrtinf[xuindx].xitems.istart ? xrtinf[xuindx].xitems.istart : undefined} required />
+                                    onChange={(e) => { setval(e, xuindx) }} value={xrtinf[xuindx].xitems.istart ? xrtinf[xuindx].xitems.istart : undefined} required />
                                 <Form.Control type="date" className='ms-1 text-center' name='i__end'
                                     min={new Date().toISOString().split('T')[xuindx]}
                                     max={xrtinf[xuindx].xitems.istart ? new Date(new Date(xrtinf[xuindx].xitems.istart).setDate(new Date().getDate() + 5)).toISOString().split('T')[xuindx] : undefined}
-                                    onChange={(e) => { period(e, xuindx) }} value={xrtinf[xuindx].xitems.i__end ? xrtinf[xuindx].xitems.i__end : undefined} required />
+                                    onChange={(e) => { setval(e, xuindx) }} value={xrtinf[xuindx].xitems.i__end ? xrtinf[xuindx].xitems.i__end : undefined} required />
                             </div>
                             <div className='d-flex justify-content-between p-1' style={{ marginTop: '-0.2em' }}>
                                 <div className='d-flex justify-content-between iflex1'>
                                     <Button className='py-0 iflex1' variant={xrtinf[xuindx].xitems.isampm == 1 ? 'primary' : 'outline-secondary'} value={1} name='isampm'
-                                        onClick={(e) => period(e, xuindx)} >AM</Button>{' '}
+                                        onClick={(e) => setval(e, xuindx)} >AM</Button>{' '}
                                     <Button className='py-0 ms-2 iflex1' variant={xrtinf[xuindx].xitems.isampm == 2 ? 'primary' : 'outline-secondary'} value={2} name='isampm'
-                                        onClick={(e) => period(e, xuindx)} >PM</Button>{' '}
+                                        onClick={(e) => setval(e, xuindx)} >PM</Button>{' '}
                                 </div>
                                 <div className='d-flex justify-content-between iflex1 ps-3'>
                                     <Button className='py-0 iflex1' variant={xrtinf[xuindx].xitems.ieampm == 1 ? 'primary' : 'outline-secondary'} value={1} name='ieampm'
-                                    onClick={(e) => period(e, xuindx)} >AM</Button>{' '}
+                                        onClick={(e) => setval(e, xuindx)} >AM</Button>{' '}
                                     <Button className='py-0 ms-2 iflex1' variant={xrtinf[xuindx].xitems.ieampm == 2 ? 'primary' : 'outline-secondary'} value={2} name='ieampm'
-                                    onClick={(e) => period(e, xuindx)} >PM</Button>{' '}
+                                        onClick={(e) => setval(e, xuindx)} >PM</Button>{' '}
                                 </div>
                             </div>
                         </div>
