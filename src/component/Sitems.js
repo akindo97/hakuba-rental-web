@@ -86,32 +86,18 @@ function Fitems() {
         /*スノースケー  */[0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 3]
     ];
 
-    const xOpric1 = {
-        0.5: [2500, 1750, 1000, 2500, 1750, 2000, 2000, 500, 500, 1500, 2000, 1, 2000],
-        1: [3500, 2500, 1000, 3500, 2500, 3000, 3000, 500, 500, 2000, 3500, 1, 3500], 
-        1.5: [5500, 4000, 1500, 5500, 4000, 4500, 4500, 1000, 0, 0, 0, 1, 0], 
-        2: [6500, 4500, 1500, 6500, 4500, 5500, 5500, 1000, 0, 0, 0, 1, 0], 
-        2.5: [8500, 5500, 2000, 8500, 5500, 7000, 7000, 1500, 0, 0, 0, 1, 0], 
-        3: [9500, 6500, 2000, 9500, 6500, 8000, 8000, 1500, 0, 0, 0, 1, 0], 
-        4: [12000, 8000, 2500, 12000, 8000, 10000, 10000, 2000, 0, 0, 0, 1, 0], 
-        5: [15000, 9000, 3000, 15000, 9000, 11000, 11000, 2500, 0, 0, 0, 1, 0], 
-        6: [17000, 10000, 3500, 17000, 10000, 12000, 12000, 3000, 0, 0, 0, 1, 0], 
-        7: [19000, 11000, 4000, 19000, 11000, 13000, 13000, 3500, 0, 0, 0, 1, 0], 
-        8: [21000, 12000, 4500, 21000, 12000, 14000, 14000, 4000, 0, 0, 0, 1, 0]
-    }
-
-    const xKpric1 = {
-        0.5: [2500, 1750, 1000, 2500, 1750, 2000, 2000, 500, 500, 1500, 2000, 1, 2000],
-        1: [3500, 2500, 1000, 3500, 2500, 3000, 3000, 500, 500, 2000, 3500, 1, 3500], 
-        1.5: [5500, 4000, 1500, 5500, 4000, 4500, 4500, 1000, 0, 0, 0, 1, 0], 
-        2: [6500, 4500, 1500, 6500, 4500, 5500, 5500, 1000, 0, 0, 0, 1, 0], 
-        2.5: [8500, 5500, 2000, 8500, 5500, 7000, 7000, 1500, 0, 0, 0, 1, 0], 
-        3: [9500, 6500, 2000, 9500, 6500, 8000, 8000, 1500, 0, 0, 0, 1, 0], 
-        4: [12000, 8000, 2500, 12000, 8000, 10000, 10000, 2000, 0, 0, 0, 1, 0], 
-        5: [15000, 9000, 3000, 15000, 9000, 11000, 11000, 2500, 0, 0, 0, 1, 0], 
-        6: [17000, 10000, 3500, 17000, 10000, 12000, 12000, 3000, 0, 0, 0, 1, 0], 
-        7: [19000, 11000, 4000, 19000, 11000, 13000, 13000, 3500, 0, 0, 0, 1, 0], 
-        8: [21000, 12000, 4500, 21000, 12000, 14000, 14000, 4000, 0, 0, 0, 1, 0]
+    const xOpric = {
+        0.5: [3750, 1750 ],
+        1: [5000, 2500 ], 
+        1.5: [8500, 4000 ], 
+        2: [9500, 4500 ], 
+        2.5: [12500, 5500 ], 
+        3: [14000, 6500 ], 
+        4: [17500, 8000 ], 
+        5: [20000, 9000 ], 
+        6: [22500, 10000 ], 
+        7: [25000, 11000 ], 
+        8: [27500, 12000 ], 
     }
 
     // 
@@ -172,45 +158,6 @@ function Fitems() {
     }
 
     // 貸出期間 - thời gian thuê
-    // const period = (e, idx) => {
-    //     let daysDiff = 0;
-    //     setval(e, idx);
-    //     if (e.target.name == "istart" && !xrtinf[idx].xitems.i__end) {
-    //         setsie(idx, 'i__end', e.target.value);
-    //         setsie(idx, 'isampm', 1);
-    //         setsie(idx, 'ieampm', 2);
-    //         daysDiff = 1;
-    //     } else {
-    //         if (e.target.name == "istart") {
-    //             daysDiff = Math.floor(((new Date(xrtinf[idx].xitems.i__end) - new Date(e.target.value)) / (24 * 60 * 60 * 1000)) + 1);
-    //         } else if (e.target.name == "i__end") {
-    //             daysDiff = Math.floor(((new Date(e.target.value) - new Date(xrtinf[idx].xitems.istart)) / (24 * 60 * 60 * 1000)) + 1);
-    //         }
-    //     }
-    //     // if(xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
-    //     //     if(xrtinf[idx].xitems.i__day > 0) {
-    //     //         daysDiff = (xrtinf[idx].xitems.ieampm - xrtinf[idx].xitems.isampm) == 0 ? xrtinf[idx].xitems.i__day - 0.5 : xrtinf[idx].xitems.i__day;
-    //     //     } else {
-    //     //         daysDiff = (xrtinf[idx].xitems.ieampm - xrtinf[idx].xitems.isampm) == 0 ? daysDiff - 0.5 : daysDiff;
-    //     //     }
-    //     // }
-    //     if (xuindx == 0) {
-    //         for (let i = 0; i < xcount; i++) {
-    //             //　代表者場合全員同じ貸出期間になってる。
-    //             setsie(i, 'i__day', daysDiff);
-    //             if (i != 0) {
-    //                 if (e.target.name == "istart") {
-    //                     setsie(i, 'istart', e.target.value);
-    //                 } else if (e.target.name == "i__end") {
-    //                     setsie(i, 'i__end', e.target.value);
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //         setsie(idx, 'i__day', daysDiff);
-    //     }
-    //     localStorage.setItem("lterms", [0, ""]);
-    // }
     useEffect(() => {
         let daysDiff = 0;
         if (xrtinf[xuindx].xitems.istart && !xrtinf[xuindx].xitems.i__end) {
@@ -220,10 +167,9 @@ function Fitems() {
             daysDiff = 1;
         } else if (xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
             daysDiff = Math.floor(((new Date(xrtinf[xuindx].xitems.i__end) - new Date(xrtinf[xuindx].xitems.istart)) / (24 * 60 * 60 * 1000)) + 1);
-            if(daysDiff < 3) {
-                daysDiff -= (xrtinf[xuindx].xitems.ieampm - xrtinf[xuindx].xitems.isampm) == 0 ? 0.5 : 0;
-            }
+            daysDiff -= (xrtinf[xuindx].xitems.ieampm - xrtinf[xuindx].xitems.isampm) == 0 ? 0.5 : 0;
         }
+        console.log(xrtinf[xuindx].xitems.istart, xrtinf[xuindx].xitems.i__end, xrtinf[xuindx].xitems.isampm, xrtinf[xuindx].xitems.ieampm);
 
         setsie(xuindx, 'i__day', daysDiff);
 
@@ -240,12 +186,12 @@ function Fitems() {
             }
         }
 
-        // 価格再計算
-        for (let i = 0; i < xcount; i++) {
-            if (xrtinf[i].xitems.isitem != '000000000000') {
-                hdrule(false, i);
-            }
-        }
+        // // 価格再計算
+        // for (let i = 0; i < xcount; i++) {
+        //     if (xrtinf[i].xitems.isitem != '000000000000') {
+        //         hdrule(false, i);
+        //     }
+        // }
 
         localStorage.setItem("lterms", [0, ""]);
     }, [xrtinf[xuindx].xitems.istart,
@@ -284,11 +230,11 @@ function Fitems() {
         // 価格計算
         let xsubpr = 0;
         let itract = 0;
-        const xprice = xuseri.clsify == 1 ? xOpric : xKpric; // 大人 ?? 子供 ??
+        const xprice = xuseri.clsify == 1 ? xOpric1 : xKpric1; // 大人 ?? 子供 ??
         for (var i = 0; i < xsitem.length; i++) {
-            if (xsitem[i] != 0) {
+            if (xsitem[i] != 0 && xitems.i__day != 0    ) {
                 // // 普通 ファンス ２H || ４H || 1日
-                xsubpr += xprice[xsitem[i] - 1][i] * xitems.i__day;
+                xsubpr += xprice[xitems.i__day][i];
             }
         }
 
@@ -309,7 +255,6 @@ function Fitems() {
 
                 if (setchk && !itract) {
                     // セット場合
-                    console.log("SET")
                     itract = xvlset.itract * xitems.i__day;
                 }
             }
@@ -356,19 +301,6 @@ function Fitems() {
         return () => clearTimeout(timeoutId);
     }, [xblkhg]);
 
-    // 2人目以降の日程を微調整します -  tinh chỉnh ngày cho người thứ 2 trở đi
-    // useEffect(() => {
-    //     if (xuindx > 0) {
-    //         const xitems = xrtinf[xuindx].xitems;
-    //         if (xitems.i__day == 0) {
-    //             console.log("V")
-    //             setsie(xuindx, 'istart', xrtinf[0].xitems.istart);
-    //             setsie(xuindx, 'i__end', xrtinf[0].xitems.i__end);
-    //             setsie(xuindx, 'i__end', xrtinf[0].xitems.i__day);
-    //         }
-    //     }
-    // }, [xuindx])
-
     // 再計算
     useEffect(() => {
         // 価格再計算
@@ -377,7 +309,7 @@ function Fitems() {
                 hdrule(false, i);
             }
         }
-    }, []);
+    }, [xrtinf[xuindx].xitems.i__day]);
 
     // チェック
     const itechk = (xrtinf) => {
@@ -560,33 +492,14 @@ function Fitems() {
                                                                     <img src={im_ski} />
                                                                     <div className='ps-1'>SKI</div>
                                                                 </div>
-                                                                <CSSTransition in={xskisl} timeout={300} classNames='itemsshow' unmountOnExit >
-                                                                    <img className='position-absolute bg-white' src={im_ski} style={{ zIndex: 1, left: '50%', marginLeft: '-16px', marginTop: '-5px' }} />
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xskisl} timeout={300} classNames='itemsiconl' unmountOnExit >
-                                                                    <div className='position-absolute' style={{ top: 0, left: '-0.3em' }}>
-                                                                        <label className='d-grid ilbope' htmlFor='123' >スキー</label>
-                                                                        <input type='radio' className='iradio' name='123' id='123' onChange={(e) => hdrule(e, index, 0, 1)}
-                                                                            checked={isitem[0] === '1' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xskisl} timeout={300} classNames='itemsiconr' unmountOnExit >
-                                                                    <div className='position-absolute' style={{ top: 0, right: '-1.3em ' }}>
-                                                                        <label className='d-grid ilbope'>ファンスキー</label>
-                                                                        <input type='radio' className='iradio' name='123' onChange={(e) => hdrule(e, index, 0, 2)}
-                                                                            checked={isitem[0] === '2' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
                                                             </div>
                                                             <div className='iibrcl'></div>
                                                             <div className='if-065 position-relative'>
                                                                 <label className={`ichklb ${xskisl ? 'invisible' : ''}`}>
                                                                     <input type='checkbox' className='ichekb' name=''
-                                                                        onChange={(e) => xuseri.clsify == 2 || !e.target.checked ? hdrule(e, index, 0) : setskisl(!xskisl)}
+                                                                        onChange={(e) => hdrule(e, index, 0)}
                                                                         checked={isitem[0] != 0 ? true : false} />
-
                                                                 </label>
-                                                                <div className='if07em ifdelt'>{isitem[0] != 0 ? (isitem[0] == 1 ? 'スキー' : 'ファンスキー') : ''}</div>
                                                             </div>
                                                         </div>
                                                         <div className='iflex1 text-center'>
