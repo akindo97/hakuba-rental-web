@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { xrepre, xuseri, fpreso } from '../component/Sgloba';
-import imhome from "../assets/images/homeig.webp";
+import imhome from "../assets/images/original.webp";
 import impre1 from "../assets/icons/material-person.png";
 import impre2 from "../assets/icons/material-person-add.png";
 import impre3 from "../assets/icons/awesome-skiing.png";

@@ -42,8 +42,8 @@ export const xuseri = {
             ufsize: "",
             uweigh: "",
             clsify: "",
-            usctry: 0,
-            usikbt: 0
+            usctry: 1,
+            usikbt: 1
         },
         xitems: {
             istart: "",
@@ -73,8 +73,8 @@ export const xuseri = {
             ufsize: "",
             uweigh: "",
             clsify: "",
-            usctry: 0,
-            usikbt: 0
+            usctry: 1,
+            usikbt: 1
         },
         xitems: {
             istart: "",
@@ -104,8 +104,8 @@ export const xuseri = {
             ufsize: "",
             uweigh: "",
             clsify: "",
-            usctry: 0,
-            usikbt: 0
+            usctry: 1,
+            usikbt: 1
         },
         xitems: {
             istart: "",
@@ -135,8 +135,8 @@ export const xuseri = {
             ufsize: "",
             uweigh: "",
             clsify: "",
-            usctry: 0,
-            usikbt: 0
+            usctry: 1,
+            usikbt: 1
         },
         xitems: {
             istart: "",
@@ -373,7 +373,9 @@ export function fdelif(varnow, vardel) {
 export function fpreso(xrtinf) {
     let xresul = 0;
     Object.keys(xrtinf).map((key) => {
-        const xuseri = xrtinf[key].xuseri;
+        let xuseri = { ...xrtinf[key].xuseri};
+        xuseri.usctry = 0;
+        xuseri.usikbt = 0;
         // 少なくとも 1 つの入力に値があればチェックします - chỉ kiểm tra nếu có ít nhất 1 input có giá trị
         const hasval = Object.values(xuseri).some(value => value !== "" && value !== false && value !== 0);
         if (hasval) {
@@ -387,29 +389,3 @@ export function fpreso(xrtinf) {
 export function fcvmny(xtmint) {
     return String(xtmint).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 }
-
-// // Dialog
-// export function Fmodal(props) {
-//     return (
-//         <Modal
-//             {...props} aria-labelledby="contained-modal-title-vcenter"
-//             centered
-//         >
-//             <Modal.Header className="py-2" closeButton>
-//                 <Modal.Title id="contained-modal-title-vcenter">
-//                     通知
-//                 </Modal.Title>
-//             </Modal.Header >
-//             <Modal.Body className="py-2">
-//                 <h4>{props.title}</h4>
-//                 <div>
-//                     {props.content}
-//                 </div>
-//             </Modal.Body>
-//             <Modal.Footer className="py-2">
-//                 <Button onClick={props.confirm}>削除</Button>
-//                 <Button onClick={props.onHide}>Close</Button>
-//             </Modal.Footer>
-//         </Modal>
-//     );
-// }

@@ -21,8 +21,10 @@ function faudit(xipobj, xipcmd, i18n) {
     let xresul = 0;
     if (xipcmd != 'all') {
         // 各部分を確認 - kiểm tra từng phần
-        const xuseri = xipobj[xipcmd].xuseri;
+        let xuseri = { ...xipobj[xipcmd].xuseri };
         Object.keys(xuseri).forEach(key => {
+            xuseri.usctry = 0;
+            xuseri.usikbt = 0;
             if (i18n.language == 'en' && (key == 'uhfnam' || key == 'uhlnam')) {
                 // Englishの場合セイとメイチェック不要
             } else {
@@ -36,10 +38,11 @@ function faudit(xipobj, xipcmd, i18n) {
         // それらをすべてチェック - kiểm tra tất cả
         let zerock = false;
         Object.keys(xipobj).map((key, idx) => {
-            const xuseri = xipobj[key].xuseri;
+            let xuseri = { ...xipobj[key].xuseri };
             // 少なくとも 1 つの入力に値があればチェックします - chỉ kiểm tra nếu có ít nhất 1 input có giá trị
+            xuseri.usctry = 0;
+            xuseri.usikbt = 0;
             const hasval = Object.values(xuseri).some(value => value !== "" && value !== false && value !== 0);
-            console.log(hasval)
             if (hasval) {
                 Object.keys(xuseri).forEach(key => {
                     if (i18n.language == 'en' && (key == 'uhfnam' || key == 'uhlnam')) {
@@ -245,7 +248,7 @@ function Fuserf() {
                 xkbage--;
             }
             const clsify = xkbage > 12 ? 1 : 2;
-            
+
             setXrtinf((prevXrtinf) => ({
                 ...prevXrtinf,
                 [xuindx]: {
@@ -257,7 +260,7 @@ function Fuserf() {
                     }
                 }
             }));
-            
+
         }
     }, [xrtinf[xuindx].xuseri.u_year, xrtinf[xuindx].xuseri.umonth, xrtinf[xuindx].xuseri.u__day])
 
@@ -473,7 +476,7 @@ function Fuserf() {
                                                             </InputGroup>
                                                             :
                                                             <div className={`border rounded d-flex ${xvalid && xidchk == idx ? xuseri.ufsize ? 'border-success' : 'border-danger' : null}`}
-                                                            style={{ padding: '0.375rem 0.75rem' }} onClick={() => setsipop(true)}>
+                                                                style={{ padding: '0.375rem 0.75rem' }} onClick={() => setsipop(true)}>
                                                                 <div className='' style={{ flex: 1 }}>
                                                                     {!xrtinf[xuindx].xuseri.usikbt || !xrtinf[xuindx].xuseri.usctry ? 'select' :
                                                                         xmemsi[xrtinf[xuindx].xuseri.usikbt - 1][xrtinf[xuindx].xuseri.usctry - 1].map((xmdkbr, idx) => {
@@ -579,7 +582,7 @@ function Fuserf() {
                                         xmemsi[xrtinf[xuindx].xuseri.usikbt - 1][xrtinf[xuindx].xuseri.usctry - 1].map((xmdkbr, idx) => {
                                             return <div className={`p-1 ${xrtinf[xuindx].xuseri.ufsize == xmemsi[xrtinf[xuindx].xuseri.usikbt - 1][0][idx] ? 'bg-info' : ''}`} key={idx}
                                                 onClick={() => { setsie(xuindx, 'ufsize', xmemsi[xrtinf[xuindx].xuseri.usikbt - 1][0][idx]); setsipop(false) }}>{xmdkbr}</div>
-                                        }) : 
+                                        }) :
                                         'Please select the size category and size type.'
                                     }
                                 </div>

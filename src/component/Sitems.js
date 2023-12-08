@@ -25,7 +25,6 @@ import imlvr2 from '../assets/icons/2.png';
 import imlvr3 from '../assets/icons/3.png';
 import imregu from '../assets/icons/regular.png';
 import imgoof from '../assets/icons/gooly.png';
-import { el } from 'date-fns/locale';
 
 function Fitems() {
     const { t, i18n } = useTranslation();

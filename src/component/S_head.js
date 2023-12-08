@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import immenu from '../assets/icons/menu.png';
-import imlogo from '../assets/images/logo.svg';
+import imlogo from '../assets/images/logo.png';
 import imlang from '../assets/icons/language.png';
 import imcenc from '../assets/icons/cancel.png';
 import imhome from '../assets/icons/home.png';
@@ -16,7 +16,6 @@ import imidea from '../assets/icons/idea.png';
 import im_map from '../assets/icons/map.png';
 import imscan from '../assets/icons/scan.png';
 import imnext from '../assets/icons/next-26-32.png';
-import { flushSync } from 'react-dom';
 
 function F_hear() {
     const { t, i18n } = useTranslation();
