@@ -274,7 +274,7 @@ input[type="date"]:valid::before {
 .iodelt {
   position: absolute;
   margin-top: -15px;
-  margin-left: -30px;
+  margin-left: -50px;
   left: 50%;
 }
 

@@ -16,7 +16,7 @@ import imsold from '../assets/items/soldier.png';
 import imsled from '../assets/items/sled.png';
 import imzipf from '../assets/items/zipfy.png';
 import imrace from '../assets/items/racer.png';
-import imshoe from '../assets/items/snowshoes.png';
+import improt from '../assets/items/protector.png';
 import imskat from '../assets/items/skating.png';
 import imstar from '../assets/items/star.png';
 import imstas from '../assets/items/stars.png';
@@ -39,16 +39,8 @@ function Fitems() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // スキー || ファンス
-    const [xskisl, setskisl] = useState(false);
-    // SNOW SKAT : 1DAY || 4H
-    const [xotska, setotska] = useState(false);
-    // SNOW SHOE : 1DAY || 4H
-    const [xotsho, setotsho] = useState(false);
-    // SNOW RACER : 1DAY || 4H
-    const [xotrac, setotrac] = useState(false);
-    // SNOW ZIPFY : 1DAY || 4H
-    const [xotzip, setotzip] = useState(false);
+    // JACKET & PANTS
+    const [xswear, setswear] = useState(false);
 
     // 長さと幅 - chiều dài và rộng - [width, height]
     const xblkhg = useRef(null);
@@ -62,7 +54,6 @@ function Fitems() {
 
     // 利用者情報 - thông tin người sử dụng
     const [xrtinf, setXrtinf] = useState(JSON.parse(localStorage.getItem("luseri")));
-    console.log(xrtinf);
 
     // 人数 - số người
     const [xcount, setcount] = useState(fpreso(xrtinf));
@@ -70,7 +61,7 @@ function Fitems() {
 
     // ITEMS ルール
     const xirule = [
-        // ["       　　", "ski", "boost", "pole", "board", "boost", "ウエア上", "ウエア下", "ヘルメット", "ソリ", "ZIPFY(スノードライブ)", "スノーレーザー(スノースクート)", "スノーシュー", "スノースケート"],
+        // ["       　　", "ski", "boost", "pole", "board", "boost", "ウエア上", "ウエア下", "ヘルメット", "プロテクター", "ZIPFY(スノードライブ)", "スノーレーザー(スノースクート)", "ソリ", "スノースケート"],
         /*ski         */[2, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
         /*boost  　  　*/[1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         /*pole   　  　*/[1, 1, 2, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -79,26 +70,12 @@ function Fitems() {
         /*ウエア上　   */[1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1],
         /*ウエア下　   */[1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
         /*ヘルメット　  */[1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-        /*ソリ　　　　  */[0, 1, 0, 0, 1, 1, 1, 1, 3, 0, 0, 0, 0],
+        /*プロテクター  */[0, 1, 0, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0],
         /*スノードライブ*/[0, 1, 0, 0, 1, 1, 1, 1, 0, 3, 0, 0, 0],
-        /*スノースクート*/[0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 3, 0, 0],
+        /*ソリ         */[0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 3, 0, 0],
         /*スノーシュー  */[0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 3, 0],
         /*スノースケー  */[0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 3]
     ];
-
-    const xOpric = {
-        0.5: [3750, 1750 ],
-        1: [5000, 2500 ], 
-        1.5: [8500, 4000 ], 
-        2: [9500, 4500 ], 
-        2.5: [12500, 5500 ], 
-        3: [14000, 6500 ], 
-        4: [17500, 8000 ], 
-        5: [20000, 9000 ], 
-        6: [22500, 10000 ], 
-        7: [25000, 11000 ], 
-        8: [27500, 12000 ], 
-    }
 
     // 
     const [nxpram, setnxpram] = useState(false);
@@ -121,10 +98,6 @@ function Fitems() {
         changeLanguage(langue);
     }, [langue]);
 
-    // // 人数調査 - tìm số người
-    // useEffect(() => {
-    //     setcount(fpreso(xrtinf));
-    // }, [])
 
     // set
     const setval = (e, idx) => {
@@ -167,9 +140,10 @@ function Fitems() {
             daysDiff = 1;
         } else if (xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
             daysDiff = Math.floor(((new Date(xrtinf[xuindx].xitems.i__end) - new Date(xrtinf[xuindx].xitems.istart)) / (24 * 60 * 60 * 1000)) + 1);
-            daysDiff -= (xrtinf[xuindx].xitems.ieampm - xrtinf[xuindx].xitems.isampm) == 0 ? 0.5 : 0;
+            if (daysDiff < 3) {
+                daysDiff -= (xrtinf[xuindx].xitems.ieampm - xrtinf[xuindx].xitems.isampm) == 0 ? 0.5 : 0;
+            }
         }
-        console.log(xrtinf[xuindx].xitems.istart, xrtinf[xuindx].xitems.i__end, xrtinf[xuindx].xitems.isampm, xrtinf[xuindx].xitems.ieampm);
 
         setsie(xuindx, 'i__day', daysDiff);
 
@@ -193,7 +167,7 @@ function Fitems() {
         //     }
         // }
 
-        localStorage.setItem("lterms", [0, ""]);
+        // localStorage.setItem("lterms", [0, ""]);
     }, [xrtinf[xuindx].xitems.istart,
     xrtinf[xuindx].xitems.i__end,
     xrtinf[xuindx].xitems.isampm,
@@ -230,9 +204,10 @@ function Fitems() {
         // 価格計算
         let xsubpr = 0;
         let itract = 0;
-        const xprice = xuseri.clsify == 1 ? xOpric1 : xKpric1; // 大人 ?? 子供 ??
+        let setnam = []; // 各セット名
+        const xprice = xuseri.clsify == 1 ? xOpric : xKpric; // 大人 ?? 子供 ??
         for (var i = 0; i < xsitem.length; i++) {
-            if (xsitem[i] != 0 && xitems.i__day != 0    ) {
+            if (xsitem[i] != 0 && xitems.i__day > 0 && xitems.i__day < 8) {
                 // // 普通 ファンス ２H || ４H || 1日
                 xsubpr += xprice[xitems.i__day][i];
             }
@@ -245,24 +220,42 @@ function Fitems() {
                 let isetis = xvlset.isitem; // 000000000000
                 let setchk = true; // セットある？
                 isetis = isetis.split('');
+                let setpri = 0;  // 単品料金
                 isetis.forEach((xvchar, xvlidx) => {
-                    if (xvchar != 0) {
+                    if (xvchar != 0 && xitems.i__day > 0 && xitems.i__day < 8) {
+                        setpri += xprice[xitems.i__day][xvlidx];
                         if (xvchar != xsitem[xvlidx]) {
                             setchk = false;
                         }
                     }
                 });
 
-                if (setchk && !itract) {
+                if (setchk) {
                     // セット場合
-                    itract = xvlset.itract * xitems.i__day;
+                    const setOKw = xuseri.clsify == 1 ? xvlset.iOpris : xvlset.iKpris; // 大人 ?? 子供 ??
+                    if (key == "2" || key == "3") {
+                        if (setnam.includes("2") || setnam.includes("3")) {
+                            console.log("có rồi");
+                        } else {
+                            console.log("setname- ", key);
+                            console.log("set- ", setpri - setOKw[xitems.i__day]);
+                            itract += (setpri - setOKw[xitems.i__day]);
+                            setnam.push(key);
+                        }
+                    } else {
+                        console.log("setname- ", key);
+                        console.log("set- ", setpri - setOKw[xitems.i__day]);
+                        itract += (setpri - setOKw[xitems.i__day]);
+                        setnam.push(key);
+                    }
+
                 }
             }
         }
         setsie(xindex, 'isubtl', xsubpr - itract);
 
         // 日チェック
-        if (xitems.i__day <= 0 || xitems.i__day > 5) {
+        if (xitems.i__day <= 0 || xitems.i__day > 8) {
             dispatch({ type: 'MODAL', payload: [1, t('NM0020')] });
             setsie(xindex, 'isubtl', 0);
         }
@@ -280,11 +273,7 @@ function Fitems() {
         console.log(xsitem);
         setsie(xindex, 'isitem', xsitem);
 
-        setskisl(false);
-        setotska(false);
-        setotsho(false);
-        setotrac(false);
-        setotzip(false);
+        // setswear(false);
 
     }
 
@@ -294,7 +283,6 @@ function Fitems() {
             if (xblkhg.current) {
                 const element = ReactDOM.findDOMNode(xblkhg.current);
                 setdomhg([element.offsetWidth, element.offsetHeight]);
-                console.log([element.offsetWidth, element.offsetHeight]);
             }
         }, 10);
 
@@ -305,7 +293,7 @@ function Fitems() {
     useEffect(() => {
         // 価格再計算
         for (let i = 0; i < xcount; i++) {
-            if (xrtinf[i].xitems.isitem != '000000000000') {
+            if (!xrtinf[i].xitems.isitem.split('').every(char => char === '0')) {
                 hdrule(false, i);
             }
         }
@@ -317,7 +305,7 @@ function Fitems() {
         for (let i = 0; i < xcount; i++) {
             const xitems = xrtinf[i].xitems;
             // 貸出期間チェック
-            if (xitems.i__day <= 0 || xitems.i__day > 5) {
+            if (xitems.i__day <= 0 || xitems.i__day > 8) {
                 dispatch({ type: 'MODAL', payload: [1, `${xordin[i]}${t('の')}` + t('NM0020')] });
                 xresul = i + 1;
                 break;
@@ -331,7 +319,7 @@ function Fitems() {
             }
 
             // 貸出期間チェック
-            if (xitems.isitem == '000000000000') {
+            if (xitems.isitem.split('').every(char => char === '0')) {
                 dispatch({ type: 'MODAL', payload: [1, `${xordin[i]}${t('の')}` + t('NM0021')] });
                 xresul = i + 1;
                 break;
@@ -358,6 +346,21 @@ function Fitems() {
         return xresul;
     }
 
+    // JACKET & PANTS click outside
+    const wearos = useRef(null);
+    const Outside = (event) => {
+        if (wearos.current && !wearos.current.contains(event.target)) {
+            setswear(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', Outside);
+
+        return () => {
+            document.removeEventListener('click', Outside);
+        };
+    }, []);
 
     // 戻る
     const fprevi = () => {
@@ -423,7 +426,7 @@ function Fitems() {
                                     onChange={(e) => { setval(e, xuindx) }} value={xrtinf[xuindx].xitems.istart ? xrtinf[xuindx].xitems.istart : undefined} required />
                                 <Form.Control type="date" className='ms-1 text-center' name='i__end'
                                     min={new Date().toISOString().split('T')[xuindx]}
-                                    max={xrtinf[xuindx].xitems.istart ? new Date(new Date(xrtinf[xuindx].xitems.istart).setDate(new Date().getDate() + 5)).toISOString().split('T')[xuindx] : undefined}
+                                    max={xrtinf[xuindx].xitems.istart ? new Date(new Date(xrtinf[xuindx].xitems.istart).setDate(new Date().getDate() + 7)).toISOString().split('T')[xuindx] : undefined}
                                     onChange={(e) => { setval(e, xuindx) }} value={xrtinf[xuindx].xitems.i__end ? xrtinf[xuindx].xitems.i__end : undefined} required />
                             </div>
                             <div className='d-flex justify-content-between p-1' style={{ marginTop: '-0.2em' }}>
@@ -488,14 +491,14 @@ function Fitems() {
                                                         </div>
                                                         <div className='iflex1 text-center'>
                                                             <div className='position-relative if07em'>
-                                                                <div className={`d-flex justify-content-center align-items-end pb-1 ${xskisl ? 'invisible' : ''}`}>
+                                                                <div className={`d-flex justify-content-center align-items-end pb-1`}>
                                                                     <img src={im_ski} />
                                                                     <div className='ps-1'>SKI</div>
                                                                 </div>
                                                             </div>
                                                             <div className='iibrcl'></div>
                                                             <div className='if-065 position-relative'>
-                                                                <label className={`ichklb ${xskisl ? 'invisible' : ''}`}>
+                                                                <label className={`ichklb`}>
                                                                     <input type='checkbox' className='ichekb' name=''
                                                                         onChange={(e) => hdrule(e, index, 0)}
                                                                         checked={isitem[0] != 0 ? true : false} />
@@ -527,7 +530,7 @@ function Fitems() {
                                                             <div className='if-065'>
                                                                 <label className='ichklb'>
                                                                     <input type='checkbox' className='ichekb' name='' onChange={(e) => hdrule(e, index, 2)}
-                                                                        checked={isitem[2] == 1 || isitem[10] != 0 ? true : false} />
+                                                                        checked={isitem[2] == 1 ? true : false} />
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -582,7 +585,7 @@ function Fitems() {
                                                                 その他
                                                             </div>
                                                         </div>
-                                                        <div className='iflex1 text-center'>
+                                                        {/* <div className='iflex1 text-center'>
                                                             <div className='d-flex justify-content-center align-items-end pb-1'>
                                                                 <img src={imcoat} />
                                                                 <div className='ps-1 text-start if07em'>
@@ -597,6 +600,45 @@ function Fitems() {
                                                                         checked={isitem[5] == 1 ? true : false} />
                                                                 </label>
                                                             </div>
+                                                        </div> */}
+                                                        <div className='iflex1 text-center' ref={wearos}>
+                                                            <div className='position-relative if07em'>
+                                                                <div className={`d-flex justify-content-center align-items-end pb-1 ${xswear ? 'invisible' : ''}`}>
+                                                                    <img src={imcoat} />
+                                                                    <div className='ps-1 text-start'>
+                                                                        <div style={{ marginBottom: '-0.5em' }}>JACKET</div>
+                                                                        <div>& PANTS</div>
+                                                                    </div>
+                                                                </div>
+                                                                <CSSTransition in={xswear} timeout={300} classNames='itemsshow' unmountOnExit >
+                                                                    <img className='position-absolute bg-white' src={imcoat} style={{ zIndex: 1, left: '50%', marginLeft: '-16px', marginTop: '-5px' }} />
+                                                                </CSSTransition>
+                                                                <CSSTransition in={xswear} timeout={300} classNames='itemsiconl' unmountOnExit >
+                                                                    <div className='position-absolute top-0' style={{ left: '-12%' }}>
+                                                                        <label className='d-grid ilbope' htmlFor='racer1' >ウェア上</label>
+                                                                        <input type='checkbox' className='iradio' name='racer' id='racer1' onChange={(e) => hdrule(e, index, 5)}
+                                                                            checked={isitem[5] === '1' ? true : false} />
+                                                                    </div>
+                                                                </CSSTransition>
+                                                                <CSSTransition in={xswear} timeout={300} classNames='itemsiconr' unmountOnExit >
+                                                                    <div className='position-absolute top-0' style={{ right: '-12%' }} >
+                                                                        <label className='d-grid ilbope' htmlFor='racer2' >ウェア下</label>
+                                                                        <input type='checkbox' className='iradio' name='racer' id='racer2' onChange={(e) => hdrule(e, index, 6)}
+                                                                            checked={isitem[6] === '1' ? true : false} />
+                                                                    </div>
+                                                                </CSSTransition>
+                                                            </div>
+                                                            <div className='iibrcl'></div>
+                                                            <div className='if-065 position-relative'>
+                                                                <label className={`ichklb ${xswear ? 'invisible' : ''}`} >
+                                                                    <input type='checkbox' className='ichekb' name=''
+                                                                        onChange={() => setswear(!xswear)}
+                                                                        checked={isitem[5] != 0 || isitem[6] != 0 ? true : false} />
+                                                                </label>
+                                                                <div className='if07em iodelt'>
+                                                                    {isitem[5] == 1 && isitem[6] == 1 ? 'セット' : `${isitem[5] == 1 ? '上のみ' : ''} ${isitem[6] == 1 ? '下のみ' : ''}`}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div className='iflex1 text-center'>
                                                             <div className='d-flex justify-content-center align-items-end pb-1'>
@@ -606,12 +648,25 @@ function Fitems() {
                                                             <div className='iibrcl'></div>
                                                             <div className='if-065'>
                                                                 <label className='ichklb'>
-                                                                    <input type='checkbox' className='ichekb' name='' onChange={(e) => hdrule(e, index, 6)}
-                                                                        checked={isitem[6] == 1 ? true : false} />
+                                                                    <input type='checkbox' className='ichekb' name='' onChange={(e) => hdrule(e, index, 7)}
+                                                                        checked={isitem[7] == 1 ? true : false} />
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div className={`iflex1 text-center ${xitems.i__day > 1 ? 'noeven' : ''}`}>
+                                                        <div className='iflex1 text-center'>
+                                                            <div className='d-flex justify-content-center align-items-end pb-1'>
+                                                                <img src={improt} />
+                                                                <div className='ps-1 if07em'>PROTECTOR</div>
+                                                            </div>
+                                                            <div className='iibrcl iwdt95'></div>
+                                                            <div className='if-065'>
+                                                                <label className='ichklb'>
+                                                                    <input type='checkbox' className='ichekb' name='' onChange={(e) => hdrule(e, index, 8)}
+                                                                        checked={isitem[8] == 1 ? true : false} />
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className={`iflex1 text-center ${xitems.i__day > 1 ? 'noeven' : ''}`}>
                                                             <div className='d-flex justify-content-center align-items-end pb-1'>
                                                                 <img src={imsled} />
                                                                 <div className='ps-1 text-start if07em'>
@@ -626,7 +681,7 @@ function Fitems() {
                                                                 </label>
                                                                 <div className='if07em iodelt'>{(isitem[7] == 2 ? '1日' : '')}</div>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
 
                                                     <div className='position-relative'>
@@ -639,150 +694,77 @@ function Fitems() {
                                                     <div className={`d-flex mt-2 ${xitems.i__day > 1 ? 'noeven' : ''}`} >
                                                         <div className='iflex1 text-center'>
                                                             <div className='position-relative if07em'>
-                                                                <div className={`d-flex justify-content-center align-items-end pb-1 ${xotzip ? 'invisible' : ''}`}>
+                                                                <div className={`d-flex justify-content-center align-items-end pb-1`}>
                                                                     <img className='iicons' src={imzipf} />
                                                                     <div className='ps-1'>ZIPFY</div>
                                                                 </div>
-                                                                <CSSTransition in={xotzip} timeout={300} classNames='itemsshow' unmountOnExit >
-                                                                    <img className='position-absolute bg-white' src={imzipf} style={{ zIndex: 1, left: '50%', marginLeft: '-16px', marginTop: '-5px' }} />
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotzip} timeout={300} classNames='itemsiconl' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ left: '10%' }}>
-                                                                        <label className='d-grid ilbope' htmlFor='zipfy1' >1日</label>
-                                                                        <input type='radio' className='iradio' name='zipfy' id='zipfy1' onChange={(e) => hdrule(e, index, 8, 2)}
-                                                                            checked={isitem[8] === '1' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotzip} timeout={300} classNames='itemsiconr' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ right: '10%' }} >
-                                                                        <label className='d-grid ilbope' htmlFor='zipfy2'>4H</label>
-                                                                        <input type='radio' className='iradio' name='zipfy' id='zipfy2' onChange={(e) => hdrule(e, index, 8, 3)}
-                                                                            checked={isitem[8] === '2' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
                                                             </div>
                                                             <div className='d-flex justify-content-end'>
                                                                 <div className='iibrcl iwdt50'></div>
                                                             </div>
                                                             <div className='if-065 position-relative'>
-                                                                <label className={`ichklb ${xotzip ? 'invisible' : ''}`}>
+                                                                <label className={`ichklb`}>
                                                                     <input type='checkbox' className='ichekb' name=''
-                                                                        onChange={(e) => !e.target.checked ? hdrule(e, index, 8) : setotzip(!xotzip)}
-                                                                        checked={isitem[8] != 0 ? true : false} />
+                                                                        onChange={(e) => hdrule(e, index, 9)}
+                                                                        checked={isitem[9] != 0 ? true : false} />
                                                                 </label>
-                                                                <div className='if07em iodelt'>{(isitem[8] == 2 ? '1日' : '')}{(isitem[8] == 3 ? '4H' : '')}</div>
                                                             </div>
 
                                                         </div>
                                                         <div className='iflex1 text-center'>
                                                             <div className='position-relative if07em'>
-                                                                <div className={`d-flex justify-content-center align-items-end pb-1 ${xotrac ? 'invisible' : ''}`}>
+                                                                <div className={`d-flex justify-content-center align-items-end pb-1`}>
                                                                     <img src={imrace} />
                                                                     <div className='ps-1 text-start'>
                                                                         <div style={{ marginBottom: '-0.5em' }}>SNOW</div>
                                                                         <div>RACER</div>
                                                                     </div>
                                                                 </div>
-                                                                <CSSTransition in={xotrac} timeout={300} classNames='itemsshow' unmountOnExit >
-                                                                    <img className='position-absolute bg-white' src={imrace} style={{ zIndex: 1, left: '50%', marginLeft: '-16px', marginTop: '-5px' }} />
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotrac} timeout={300} classNames='itemsiconl' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ left: '10%' }}>
-                                                                        <label className='d-grid ilbope' htmlFor='racer1' >1日</label>
-                                                                        <input type='radio' className='iradio' name='racer' id='racer1' onChange={(e) => hdrule(e, index, 9, 2)}
-                                                                            checked={isitem[9] === '1' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotrac} timeout={300} classNames='itemsiconr' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ right: '10%' }} >
-                                                                        <label className='d-grid ilbope' htmlFor='racer2' >2H</label>
-                                                                        <input type='radio' className='iradio' name='racer' id='racer2' onChange={(e) => hdrule(e, index, 9, 4)}
-                                                                            checked={isitem[9] === '2' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
                                                             </div>
                                                             <div className='iibrcl'></div>
                                                             <div className='if-065 position-relative'>
-                                                                <label className={`ichklb ${xotrac ? 'invisible' : ''}`} >
+                                                                <label className={`ichklb`} >
                                                                     <input type='checkbox' className='ichekb' name=''
-                                                                        onChange={(e) => !e.target.checked ? hdrule(e, index, 9) : setotrac(!xotrac)}
-                                                                        checked={isitem[9] != 0 ? true : false} />
-                                                                </label>
-                                                                <div className='if07em iodelt'>{(isitem[9] == 2 ? '1日' : '')}{(isitem[9] == 4 ? '2H' : '')}</div>
-                                                            </div>
-                                                        </div>
-                                                        <div className='iflex1 text-center'>
-                                                            <div className='position-relative if07em'>
-                                                                <div className={`d-flex justify-content-center align-items-end pb-1 ${xotsho ? 'invisible' : ''}`}>
-                                                                    <img src={imshoe} />
-                                                                    <div className='ps-1 text-start'>
-                                                                        <div style={{ marginBottom: '-0.5em' }}>SNOW</div>
-                                                                        <div>SHOE</div>
-                                                                    </div>
-                                                                </div>
-                                                                <CSSTransition in={xotsho} timeout={300} classNames='itemsshow' unmountOnExit >
-                                                                    <img className='position-absolute bg-white' src={imshoe} style={{ zIndex: 1, left: '50%', marginLeft: '-16px', marginTop: '-5px' }} />
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotsho} timeout={300} classNames='itemsiconl' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ left: '10%' }}>
-                                                                        <label className='d-grid ilbope' htmlFor='shoe1' >1日</label>
-                                                                        <input type='radio' className='iradio' name='shoe' id='shoe1' onChange={(e) => hdrule(e, index, 10, 2)}
-                                                                            checked={isitem[10] === '1' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotsho} timeout={300} classNames='itemsiconr' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ right: '10%' }} >
-                                                                        <label className='d-grid ilbope' htmlFor='shoe2' >4H</label>
-                                                                        <input type='radio' className='iradio' name='shoe' id='shoe2' onChange={(e) => hdrule(e, index, 10, 3)}
-                                                                            checked={isitem[10] === '2' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
-                                                            </div>
-                                                            <div className='iibrcl'></div>
-                                                            <div className='if-065 position-relative'>
-                                                                <label className={`ichklb ${xotsho ? 'invisible' : ''}`}>
-                                                                    <input type='checkbox' className='ichekb' name=''
-                                                                        onChange={(e) => !e.target.checked ? hdrule(e, index, 10) : setotsho(!xotsho)}
+                                                                        onChange={(e) => hdrule(e, index, 10)}
                                                                         checked={isitem[10] != 0 ? true : false} />
                                                                 </label>
-                                                                <div className='if07em iodelt'>{(isitem[10] == 2 ? '1日' : '')}{(isitem[10] == 3 ? '4H' : '')}</div>
                                                             </div>
                                                         </div>
                                                         <div className='iflex1 text-center'>
                                                             <div className='position-relative if07em'>
-                                                                <div className={`d-flex justify-content-center align-items-end pb-1 ${xotska ? 'invisible' : ''}`}>
+                                                                <div className={`d-flex justify-content-center align-items-end pb-1`}>
+                                                                    <img src={imsled} />
+                                                                    <div className='ps-1 text-start'>
+                                                                        SLED
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='iibrcl'></div>
+                                                            <div className='if-065 position-relative'>
+                                                                <label className={`ichklb`}>
+                                                                    <input type='checkbox' className='ichekb' name=''
+                                                                        onChange={(e) => hdrule(e, index, 11)}
+                                                                        checked={isitem[11] != 0 ? true : false} />
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div className='iflex1 text-center'>
+                                                            <div className='position-relative if07em'>
+                                                                <div className={`d-flex justify-content-center align-items-end pb-1`}>
                                                                     <img src={imskat} />
                                                                     <div className='ps-1 text-start'>
                                                                         <div style={{ marginBottom: '-0.5em' }}>SNOW</div>
                                                                         <div>SKAT</div>
                                                                     </div>
                                                                 </div>
-                                                                <CSSTransition in={xotska} timeout={300} classNames='itemsshow' unmountOnExit >
-                                                                    <img className='position-absolute bg-white' src={imskat} style={{ zIndex: 1, left: '50%', marginLeft: '-16px', marginTop: '-5px' }} />
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotska} timeout={300} classNames='itemsiconl' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ left: '10%' }}>
-                                                                        <label className='d-grid ilbope' htmlFor='skat1' >2H</label>
-                                                                        <input type='radio' className='iradio' name='skat' id='skat1' onChange={(e) => hdrule(e, index, 11, 4)}
-                                                                            checked={isitem[11] === '1' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
-                                                                <CSSTransition in={xotska} timeout={300} classNames='itemsiconr' unmountOnExit >
-                                                                    <div className='position-absolute top-0' style={{ right: '10%' }} >
-                                                                        <label className='d-grid ilbope' htmlFor='skat2' >4H</label>
-                                                                        <input type='radio' className='iradio' name='skat' id='skat2' onChange={(e) => hdrule(e, index, 11, 3)}
-                                                                            checked={isitem[11] === '2' ? true : false} />
-                                                                    </div>
-                                                                </CSSTransition>
                                                             </div>
                                                             <div className='iibrcl iwdt95'></div>
                                                             <div className='if-065 position-relative'>
-                                                                <label className={`ichklb ${xotska ? 'invisible' : ''}`}>
+                                                                <label className={`ichklb`}>
                                                                     <input type='checkbox' className='ichekb' name=''
-                                                                        onChange={(e) => !e.target.checked ? hdrule(e, index, 11) : setotska(!xotska)}
-                                                                        checked={isitem[11] != 0 ? true : false} />
+                                                                        onChange={(e) => hdrule(e, index, 12)}
+                                                                        checked={isitem[12] != 0 ? true : false} />
                                                                 </label>
-                                                                <div className='if07em iodelt'>{(isitem[11] == 3 ? '4H' : '')}{(isitem[11] == 4 ? '2H' : '')}</div>
                                                             </div>
                                                         </div>
                                                     </div>

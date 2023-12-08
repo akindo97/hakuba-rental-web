@@ -109,7 +109,7 @@ export function F_home() {
                 let xitchk = true;
                 let xdtchk = true;
                 for (let i = 0; i < xslpre; i++) {
-                    if (xitems[i].xitems.isitem == '000000000000') {
+                    if (xitems[i].xitems.isitem.split('').every(char => char === '0')) {
                         xitchk = false;
                     }
                     if (new Date() > new Date(`${xitems[i].xitems.istart} 23:59:59`)) {

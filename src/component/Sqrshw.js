@@ -347,10 +347,8 @@ function Fqrshw() {
 
                                         if (setchk && !itract) {
                                             // セット場合
-                                            itract = xvlset.itract * xitems.i__day;
                                             isetis.forEach((xvchar, xvlidx) => {
                                                 if (xvchar != 0) {
-                                                    console.log(xvlset.inewse[xvlidx])
                                                     isitem[xvlidx] = xvlset.inewse[xvlidx];
                                                 }
                                             });
@@ -432,12 +430,22 @@ function Fqrshw() {
                                                 <div className='border-bottom text-center'>{xuseri.ukfnam}{xuseri.uklnam}</div>
                                                 <div className='px-1'>
                                                     {isitem.map((item, index) => {
-                                                        if (item != 0) {
+                                                        if (item == 1) {
                                                             return (
                                                                 <div className='d-flex justify-content-between' key={index}>
-                                                                    <div className=''>{xiname[item - 1][index]}</div>
-                                                                    {/* 普通 ファンス ２H || ４H || 1日 */}
-                                                                    <div className=''>¥{fcvmny(xprice[item - 1][index] * xitems.i__day)}</div>
+                                                                    <div className=''>{xiname[index]}</div>
+                                                                    {/* 普通 */}
+                                                                    <div className=''>¥{fcvmny(xprice[xitems.i__day][index])}</div>
+                                                                </div>
+                                                            );
+                                                        }
+                                                        if (item > 1) {
+                                                            const xsetpr = xuseri.clsify == 1 ? setpre[item].iOpris : setpre[item].iKpris;
+                                                            return (
+                                                                <div className='d-flex justify-content-between' key={index}>
+                                                                    <div className=''>{setpre[item].isname}</div>
+                                                                    {/* セット */}
+                                                                    <div className=''>¥{fcvmny(xsetpr[xitems.i__day])}</div>
                                                                 </div>
                                                             );
                                                         }
