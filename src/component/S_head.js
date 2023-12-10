@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { F_cost } from './Snmenu';
 import immenu from '../assets/icons/menu.png';
 import imlogo from '../assets/images/logo.png';
 import imlang from '../assets/icons/language.png';
@@ -75,9 +76,17 @@ function F_hear() {
         }
         setsmenu(!xsmenu);
     }
+
+    const [xscost, setscost] = useState(false);
+
+    const fbhome = () => {
+        navigate('./');
+        if (xscost) { setscost(false) };
+    }
+
     return (
         <>
-            <header className="position-fixed top-0 start-0 end-0 bg-white border-bottom" style={{ zIndex: 1 }}>
+            <header className="position-fixed top-0 start-0 end-0 bg-white border-bottom" style={{ zIndex: 2 }}>
                 <div className="d-flex align-items-center justify-content-between  p-1" style={{ height: '3.2em' }} >
                     <div className='text-center' onClick={Menu}>
                         <img className='iicons' src={!xsmenu ? immenu : imcenc} />
@@ -103,15 +112,15 @@ function F_hear() {
             </header>
 
             <div className={`position-absolute start-0 end-0 bottom-0 ${!xamenu ? 'd-none' : ''}`} onClick={Menu}
-                style={{ zIndex: 1, top: '3.2em', backgroundColor: '#00000082' }}>
+                style={{ zIndex: 2, top: '3.2em', backgroundColor: '#00000082' }}>
                 <CSSTransition in={xsmenu} timeout={300} classNames='fademenu' unmountOnExit >
                     <div className='bg-white w-75 h-100 position-absolute' style={{ maxWidth: '16em' }}>
-                        <div className='d-flex align-items-center border-bottom p-2' onClick={() => navigate('./')}>
+                        <div className='d-flex align-items-center border-bottom p-2' onClick={fbhome}>
                             <img src={imhome} />
                             <div className='flex-grow-1 py-2 ps-2'>{t('ホーム')}</div>
                             <img src={imnext} />
                         </div>
-                        <div className='d-flex align-items-center border-bottom p-2' onClick={() => alert("作業中")}>
+                        <div className='d-flex align-items-center border-bottom p-2' onClick={() => setscost(true)}>
                             <img src={impric} />
                             <div className='flex-grow-1 py-2 ps-2'>{t('レンタル料金')}</div>
                             <img src={imnext} />
@@ -134,6 +143,10 @@ function F_hear() {
                     </div>
                 </CSSTransition>
             </div>
+            <CSSTransition in={xscost} timeout={300} classNames='zin' unmountOnExit >
+                <F_cost onback={() => setscost(false)} />
+            </CSSTransition>
+            {/* {xscost ? <F_cost onback={() => setscost(false)} /> : null} */}
 
             <Modal show={show} onHide={handleClose} centered className='px-3'>
                 <Modal.Header className='py-2' closeButton>
