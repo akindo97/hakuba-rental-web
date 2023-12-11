@@ -8,7 +8,7 @@ i18n
     resources: {
       jp: {
         translation: {
-          hometip: `スノーウェーブパーク白鳥高原のスキーレンタル事前登録サイトです。<br />
+          hometip: `プレストEGレンタル事前登録サイトです。<br />
           レンタル受付の前に必ず登録し、QRコード表示してください。<br />
           一度に4人まで登録可能です。`,
           hometip1: `利用されるお客様（代表の方）の情報を入力してください<br />
@@ -156,7 +156,7 @@ i18n
       },
       en: {
         translation: {
-          hometip: `This is the pre-registration site for snow wave park Ski Rental.<br />
+          hometip: `This is the pre-registration site for Presto EG Rental.<br />
           Please register in advance and display the QR code before rental reception.<br />
           You can register up to four people at once.`,
           hometip1: `Please enter the information of the customer who will be using the service<br />
