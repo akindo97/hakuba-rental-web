@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Form, Button, InputGroup, ButtonGroup, ToggleButton } from "react-bootstrap";
 import { CSSTransition } from 'react-transition-group';
-import { fdelif, xsctry, xsikbt, xmemsi } from './Sgloba';
+import { fdelif, xsctry, xhghar, xsikbt, xmemsi } from './Sgloba';
 import imname from "../assets/icons/name.png";
 import im_sex from "../assets/icons/ico-sex.png";
 import imbirt from "../assets/icons/birthday.png";
@@ -500,8 +500,17 @@ function Fuserf() {
                                                     </Col>
                                                     <Col xs={6}>
                                                         <InputGroup className="">
-                                                            <Form.Control className={`border-end-0 ${xvalid && xidchk == idx ? xuseri.uweigh ? 'is-valid' : 'is-invalid' : null}`} placeholder={t('例') + '： 65'} aria-describedby="basic-addon2"
-                                                                type="number" name='uweigh' onChange={(e) => setval(e, idx)} value={xuseri.uweigh} />
+                                                            <Form.Select className={`border-end-0 ${xvalid && xidchk == idx ? xuseri.uweigh ? 'is-valid' : 'is-invalid' : null}`} aria-label="Default select example"
+                                                                name='uweigh' onChange={(e) => setval(e, idx)} value={xuseri.uweigh} >
+                                                                <option value="">{t('未選択')}</option>
+                                                                {xhghar.map((xhghar, idx) => {
+                                                                    return (
+                                                                        <option key={idx} value={idx}>
+                                                                            {xhghar[1]}
+                                                                        </option>
+                                                                    )
+                                                                })}
+                                                            </Form.Select>
                                                             <InputGroup.Text className={`bg-white ps-0 ${xvalid && xidchk == idx ? xuseri.uweigh ? 'border-success' : 'border-danger' : null}`} id="basic-addon2">kg</InputGroup.Text>
                                                         </InputGroup>
                                                     </Col>

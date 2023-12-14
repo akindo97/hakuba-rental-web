@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Container } from "react-bootstrap";
 import { CSSTransition } from 'react-transition-group';
 import { format } from 'date-fns';
-import { fpreso, xOpric, xKpric, xiname, xsctry, xsikbt, xmemsi, setpre, fcvmny } from './Sgloba';
+import { fpreso, xOpric, xKpric, xiname, xsctry, xsikbt, xhghar, xmemsi, setpre, fcvmny } from './Sgloba';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import iconv from 'iconv-lite';
@@ -105,8 +105,9 @@ function Fqrshw() {
         for (let i = 0; i < xcount; i++) {
             const xuseri = xrtinf[i].xuseri;
             const xitems = xrtinf[i].xitems;
+            const xweigh = (xuseri.uweigh != "" ? xhghar[xuseri.uweigh][0] : 0);
             if (xitems.isitem[0] != 0) {
-                xkaiho[i] = CL_release(xuseri.ufsize, xuseri.uheigh, xuseri.uweigh, xuseri.u__age, xitems.ilevel, release);
+                xkaiho[i] = CL_release(xuseri.ufsize, xuseri.uheigh, xweigh, xuseri.u__age, xitems.ilevel, release);
             }
         }
         setreles(xkaiho);
@@ -185,7 +186,7 @@ function Fqrshw() {
                 xuseri.u__age + '\n' +
                 xuseri.uheigh + '\n' +
                 xuseri.ufsize + '\n' +
-                xuseri.uweigh + '\n' +
+                (xuseri.uweigh != "" ? xhghar[xuseri.uweigh][1] : "") + '\n' +
                 xuseri.clsify + '\n' +
                 xitems.i__day + '\n' +
                 xitems.isubtl + '\n' +
@@ -216,7 +217,22 @@ function Fqrshw() {
 
     }, [])
 
+    // Min Max date
+    const [xdtmin, setdtmin] = useState("");
+    const [xdtmax, setdtmax] = useState("");
+    useEffect(() => {
+        let arrmin = [];
+        let arrmax = [];
+        for(let i=0; i<xcount; i++) {
+            arrmin.push(new Date(xrtinf[i].xitems.istart) ? new Date(xrtinf[i].xitems.istart) : new Date());
+            arrmax.push(new Date(xrtinf[i].xitems.i__end) ? new Date(xrtinf[i].xitems.i__end) : new Date());
+        }
+        const xstmin = arrmin.reduce((min, currentDate) => (currentDate < min ? currentDate : min), arrmin[0]);
+        setdtmin(xstmin.getFullYear() + "/" + (xstmin.getMonth() + 1) + "/" + xstmin.getDate());
 
+        const xstmax = arrmax.reduce((max, currentDate) => (currentDate > max ? currentDate : max), arrmax[0]);
+        setdtmax(xstmax.getFullYear() + "/" + (xstmax.getMonth() + 1) + "/" + xstmax.getDate());
+    }, []);
 
     // 戻る
     const fprevi = () => {
@@ -293,12 +309,12 @@ function Fqrshw() {
                                 <div className='text-center border-end border-dark' style={{ minWidth: '8.6em' }}>
                                     <div className='px-1 d-flex'>
                                         <div>{t('開')}：</div>
-                                        <div className='w-100'>{xrtinf[0].xitems.istart.replace(/-/g, "/")}</div>
+                                        <div className='w-100'>{xdtmin}</div>
                                     </div>
                                     <div style={{ margin: '-0.12em 0 -0.12em 0' }}>～</div>
                                     <div className='px-1 d-flex'>
                                         <div>{t('返')}：</div>
-                                        <div className='w-100'>{xrtinf[0].xitems.i__end.replace(/-/g, "/")}</div>
+                                        <div className='w-100'>{xdtmax}</div>
                                     </div>
                                     <div className='d-flex px-1 border-top'>
                                         <div className=''>{t('数')}：</div>
@@ -421,7 +437,7 @@ function Fqrshw() {
                                                         <div className='text-end qc-6px'>kg</div>
                                                     </div>
                                                 </div>
-                                                <div className='q-02em px-1'>{xuseri.uweigh}</div>
+                                                <div className='q-02em px-1'>{xhghar[xuseri.uweigh][1]}</div>
                                             </div>
                                         </div>
                                         <div className='d-flex flex-column justify-content-between  flex-grow-1'>

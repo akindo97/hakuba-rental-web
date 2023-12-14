@@ -26,6 +26,8 @@ import imlvr3 from '../assets/icons/3.png';
 import imregu from '../assets/icons/regular.png';
 import imgoof from '../assets/icons/gooly.png';
 
+var savdat;
+
 function Fitems() {
     const { t, i18n } = useTranslation();
     const changeLanguage = (lng) => {
@@ -53,6 +55,12 @@ function Fitems() {
 
     // 利用者情報 - thông tin người sử dụng
     const [xrtinf, setXrtinf] = useState(JSON.parse(localStorage.getItem("luseri")));
+
+    // 元の日付 - lưu ngày trước đó để so sánh
+    const [xmotod, setmotod] = useState(["",""]);
+    useEffect(()=> {
+        setmotod([xrtinf[xuindx].xitems.istart, xrtinf[xuindx].xitems.i__end]);
+    }, [])
 
     // 人数 - số người
     const [xcount, setcount] = useState(fpreso(xrtinf));
@@ -131,6 +139,12 @@ function Fitems() {
 
     // 貸出期間 - thời gian thuê
     useEffect(() => {
+        // < today check
+        if (xrtinf[xuindx].xitems.istart && (new Date() > new Date(`${xrtinf[xuindx].xitems.istart}T23:59:59`))) {
+            dispatch({ type: 'MODAL', payload: [1, t('NM0028')] });
+            return;
+        }
+
         let daysDiff = 0;
         if (xrtinf[xuindx].xitems.istart && !xrtinf[xuindx].xitems.i__end) {
             setsie(xuindx, 'i__end', xrtinf[xuindx].xitems.istart);
@@ -165,7 +179,14 @@ function Fitems() {
         //         hdrule(false, i);
         //     }
         // }
-
+        // 日チェック
+        if ((daysDiff <= 0 || daysDiff > 8) && xrtinf[xuindx].xitems.istart && xrtinf[xuindx].xitems.i__end && xrtinf[xuindx].xitems.isampm && xrtinf[xuindx].xitems.ieampm) {
+            if (new Date(savdat) >= new Date(xrtinf[xuindx].xitems.istart)) {
+                dispatch({ type: 'MODAL', payload: [1, t('NM0020')] });
+            }
+            setsie(xuindx, 'i__end', xrtinf[xuindx].xitems.istart);
+        }
+        savdat = xrtinf[xuindx].xitems.istart;
         // localStorage.setItem("lterms", [0, ""]);
     }, [xrtinf[xuindx].xitems.istart,
     xrtinf[xuindx].xitems.i__end,
@@ -253,11 +274,12 @@ function Fitems() {
         }
         setsie(xindex, 'isubtl', xsubpr - itract);
 
-        // 日チェック
-        if (xitems.i__day <= 0 || xitems.i__day > 8) {
-            dispatch({ type: 'MODAL', payload: [1, t('NM0020')] });
-            setsie(xindex, 'isubtl', 0);
-        }
+        // // 日チェック
+        // if (xitems.i__day <= 0 || xitems.i__day > 8) {
+        //     dispatch({ type: 'MODAL', payload: [1, t('NM0020')] });
+        //     setsie(xindex, 'i__end', xitems.istart);
+        //     setsie(xindex, 'isubtl', 0);
+        // }
 
         // スキーヤー　レベル と　スキーヤー　レベル　reset
         if (xsitem[0] == 0 && xsitem[3] == 0 && xitems.ilevel != 0) {
@@ -311,7 +333,7 @@ function Fitems() {
             }
 
             // 期限日チェック
-            if (new Date() > new Date(`${xitems.istart} 23:59:59`)) {
+            if (new Date() > new Date(`${xitems.istart}T23:59:59`)) {
                 dispatch({ type: 'MODAL', payload: [1, `${xordin[i]}${t('の')}` + t('NM0025')] });
                 xresul = i + 1;
                 break;
@@ -378,6 +400,12 @@ function Fitems() {
     //　次へボタン
     const fconti = () => {
         const xchker = itechk(xrtinf);
+
+        // 日付変更チェック
+        if (xmotod[0] != xrtinf[0].xitems.istart || xmotod[1] != xrtinf[0].xitems.i__end) {
+            localStorage.setItem("lterms", [0, ""]);
+        }
+
         if (xchker === 0) {
             localStorage.setItem("luseri", JSON.stringify(xrtinf));
             dispatch({ type: 'NXPRID', payload: +1 });
@@ -385,6 +413,7 @@ function Fitems() {
         }
     }
 
+    // OK
     useEffect(() => {
         setnxpram(true);
     }, []);
@@ -425,7 +454,7 @@ function Fitems() {
                                     onChange={(e) => { setval(e, xuindx) }} value={xrtinf[xuindx].xitems.istart ? xrtinf[xuindx].xitems.istart : undefined} required />
                                 <Form.Control type="date" className='ms-1 text-center' name='i__end'
                                     min={new Date().toISOString().split('T')[xuindx]}
-                                    max={xrtinf[xuindx].xitems.istart ? new Date(new Date(xrtinf[xuindx].xitems.istart).setDate(new Date().getDate() + 7)).toISOString().split('T')[xuindx] : undefined}
+                                    max={xrtinf[xuindx].xitems.istart ? new Date(new Date(xrtinf[xuindx].xitems.istart).setDate(new Date(xrtinf[xuindx].xitems.istart).getDate() + 7)).toISOString().split('T')[xuindx] : undefined}
                                     onChange={(e) => { setval(e, xuindx) }} value={xrtinf[xuindx].xitems.i__end ? xrtinf[xuindx].xitems.i__end : undefined} required />
                             </div>
                             <div className='d-flex justify-content-between p-1' style={{ marginTop: '-0.2em' }}>

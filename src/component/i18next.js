@@ -152,6 +152,7 @@ i18n
           NM0023: "スノーボードスタンス確認してください。",
           NM0025: "開始日異常です。",
           NM0026: "開始日異常です。(レンタル品選択画面）",
+          NM0028: "開始日は現在の日付より前の日付です。",
         },
       },
       en: {
@@ -291,6 +292,7 @@ i18n
           NM0023: 'Please confirm the snowboard stance.',
           NM0025: "Start date is abnormal.",
           NM0026: "Start date is abnormal (Rental item selection screen).",
+          NM0028: "The start date is a date before the current date.",
         },
       },
     },
